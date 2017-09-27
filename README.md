@@ -18,22 +18,22 @@ TODO:
 
 
 Potential goals:
-  -identify memes
-    --a meme is a popular repeated image or phrase
-    --track popularity of memes vs. time
-      ---associate comment post time to parent post time
-      ---flatten comments -> one giant corpus
-    --problems:
-      ---many memes are images/video, ignore these?
-  -identify the most popular reddit users (those with most front page hits)
-    --examine their interests
-  -identify why some posts of the same content are upvoted, while others are not
-  -how to determine themes?
-  -find out why certain posts are controversial
-  -look at point system
-  -look at difference in reaction between the same content in different subreddits 
-    --reddit bot does this?
-  -most upvoted posts vs. downvoted 
-  -most upvoted comments vs. downvoted
-  -subreddit simulator
+  * identify memes
+    * a meme is a popular repeated image or phrase
+    * track popularity of memes vs. time
+      * associate comment post time to parent post time
+      * flatten comments -> one giant corpus
+    * problems:
+      * many memes are images/video, ignore these?
+  * identify the most popular reddit users (those with most front page hits)
+    * examine their interests
+  * identify why some posts of the same content are upvoted, while others are not
+  * how to determine themes?
+  * find out why certain posts are controversial
+  * look at point system
+  * look at difference in reaction between the same content in different subreddits 
+    * reddit bot does this?
+  * most upvoted posts vs. downvoted 
+  * most upvoted comments vs. downvoted
+  * subreddit simulator
      
