@@ -11,14 +11,12 @@ http://praw.readthedocs.io/en/latest/index.html
 extracting themes:
 https://dl.acm.org/citation.cfm?id=1081895
 
-##
-TODO:
+## TODO:
 1. figure out reddit auth process
 2. ???
 3. profit
 
-##
-potential ideas:
+## potential ideas:
   * identify memes
     * a meme is a popular repeated image or phrase
     * track popularity of memes vs. time
