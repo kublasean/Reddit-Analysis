@@ -11,13 +11,12 @@ http://praw.readthedocs.io/en/latest/index.html
 extracting themes:
 https://dl.acm.org/citation.cfm?id=1081895
 
-TODO:
+## TODO:
 1. figure out reddit auth process
 2. ???
 3. profit
 
-
-Potential goals:
+## potential ideas:
   * identify memes
     * a meme is a popular repeated image or phrase
     * track popularity of memes vs. time
@@ -36,4 +35,16 @@ Potential goals:
   * most upvoted posts vs. downvoted 
   * most upvoted comments vs. downvoted
   * subreddit simulator
+  
+## installing praw on gcloud
+
+1. log into docker 
+2. docker-machine start fdac17-blah-1
+3. docker-machine ssh fdac17-blah-1
+4. sudo docker ps -a
+   * if fdac17-blah isn't running then:
+   * sudo docker start fdac-blah
+5. sudo docker exec fdac-blah pip install --upgrade praw
+6. logout, then ssh into fdac17-blah-1 and try import praw in python notebook
+7. celebrate
      
