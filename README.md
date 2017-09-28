@@ -36,7 +36,7 @@ https://dl.acm.org/citation.cfm?id=1081895
   * most upvoted comments vs. downvoted
   * subreddit simulator
   
-##installing praw on gcloud
+## installing praw on gcloud
 
 1. log into docker 
 2. docker-machine start fdac17-blah-1
