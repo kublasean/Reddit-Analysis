@@ -16,7 +16,7 @@ def get_flat_comments(submission):
     flat_comment = ''
     submission.comments.replace_more(limit=0)
     for comment in submission.comments.list():
-        if not comment == '[deleted]':
+        if not comment.body == '[deleted]':
             flat_comment += comment.body + ' '
     return flat_comment
     
@@ -32,7 +32,7 @@ def main():
             'startYear':args.startYear, 'startMonth':args.startMonth, 'stopYear':args.stopYear,  'stopMonth':args.stopMonth})
 
     if os.path.exists(outfile):
-        print('%s already exits. Are you sure you want to rerun? Please delete the file and try again. '%outfile)
+        print('%s already exits. Are you sure you want to rerun? \nPlease delete the file and try again. '%outfile)
         sys.exit()
 
     reddit = praw.Reddit(client_id='qJwY2ZzRahm-GQ',
