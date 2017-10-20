@@ -1,65 +1,73 @@
+#!/usr/bin/env python3
+
 import click
 import os
 import re
 
+import sys
+
 import praw
+
+from calendar import monthrange
 import time
 import datetime
 
-
-@click.command()
-@click.argument("subreddit",help="Name of the Subreddit",type=string)
-@click.argument("startYear",help="Start timestamp year",type=int)
-@click.argument("startMonth",help="Start timestamp month",type=int)
-@click.argument("startDay",help="Start timestamp day",type=int)
-@click.argument("stopYear",help="Stop timestamp year",type=int)
-@click.argument("stopMonth",help="Stop timestamp month",type=int)
-@click.argument("stopDay",help="Stop timestamp day",type=int)
-
-def get_comments(submission):
-	flat_comment = ''
-	submission.comments.replace_more(limit=0)
-	for comment in submission.comments.list():
-		if not comment == '[deleted]':
-			flat_comment += comment.body + ' '
-	return flat_comment
-	
-def clean_flat_comments(document):
-	document = document.encode(encoding='ascii', errors='ignore').decode('ascii')
-	document = document.replace('\n', ' ')
-	document = document.replace('\t', ' ')
-	return document	
-
-
-def main(subreddit,startYear,startMonth,startDay,stopYear,stopMonth,stopDay):
-	
-	reddit = praw.Reddit(client_id='qJwY2ZzRahm-GQ',
-                     	client_secret='lkZjzt2g6MutrTm3D7c7hNl5R6w',
-                     	user_agent='linux:reddit-analysis:v1.0.0 (by /u/DigitalArcheology)',
-                     	username='DigitalArcheology',
-                     	password='GOvols!2017')
-                     
-                     
-	sub = reddit.subreddit(subreddit)
-
-	timestamp_Start = time.mktime(datetime.date(startYear, startMonth, startDay).timetuple())
-	timestamp_Stop = time.mktime(datetime.date(stopYear, stopMonth, stopDay).timetuple())
-
-	submissions = []
-	for submission in sub.submissions(start=timestamp_Start, end=timestamp_Stop):
-		if submission.num_comments > 100:
-    		submissions.append(submission)
+def get_flat_comments(submission):
+    flat_comment = ''
+    submission.comments.replace_more(limit=0)
+    for comment in submission.comments.list():
+        if not comment == '[deleted]':
+            flat_comment += comment.body + ' '
+    return flat_comment
     
-	#print(len(submissions))
-	outfile = str(subreddit)+'_'+ str(startYear) + '_' + str(startMonth) + ':' + str(stopYear) + '_' + str(stopMonth) + '_flatcomments.txt'
-	with open(outfile, 'w') as f:
-    	for i, submission in enumerate(submissions):
-            document = get_comments(submission=submission)
+def clean_flat_comments(document):
+    document = document.encode(encoding='ascii', errors='ignore').decode('ascii')
+    document = document.replace('\n', ' ')
+    document = document.replace('\t', ' ')
+    return document 
+
+
+def main():
+    outfile = '{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_flatcomments.txt'.format(**{'subreddit':args.subreddit, \
+            'startYear':args.startYear, 'startMonth':args.startMonth, 'stopYear':args.stopYear,  'stopMonth':args.stopMonth})
+
+    if os.path.exists(outfile):
+        print('%s already exits. Are you sure you want to rerun? Please delete the file and try again. '%outfile)
+        sys.exit()
+
+    reddit = praw.Reddit(client_id='qJwY2ZzRahm-GQ',
+                        client_secret='lkZjzt2g6MutrTm3D7c7hNl5R6w',
+                        user_agent='linux:reddit-analysis:v1.0.0 (by /u/DigitalArcheology)',
+                        username='DigitalArcheology',
+                        password='GOvols!2017')
+                     
+    sub = reddit.subreddit(args.subreddit)
+
+    timestamp_Start = time.mktime(datetime.datetime(args.startYear, args.startMonth, 1, 0, 0, 0).timetuple())
+    timestamp_Stop = time.mktime(datetime.datetime(args.stopYear, args.stopMonth, monthrange(args.stopYear, args.stopMonth)[1], 23, 59, 59, 99).timetuple())
+
+    submissions = []
+    for submission in sub.submissions(start=timestamp_Start, end=timestamp_Stop):
+        if submission.num_comments > args.num_comments:
+                submissions.append(submission)
+    
+    gc = get_flat_comments
+    cc = clean_flat_comments
+    with open(outfile, 'w') as f:
+        for i, submission in enumerate(submissions):
+            document = gc(submission=submission)
             document = cc(document)
             f.write(submission.id + '\t' + document + '\n')
 
-            
-            
-            
-            
-                                              
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("subreddit",help="Name of the Subreddit")
+    parser.add_argument("startYear",help="Start timestamp year",type=int)
+    parser.add_argument("startMonth",help="Start timestamp month",type=int)
+    parser.add_argument("stopYear",help="Stop timestamp year",type=int)
+    parser.add_argument("stopMonth",help="Stop timestamp month",type=int)
+    parser.add_argument("-n", "--num_comments", help="Minimum number of comments", type=int, default=100)
+    args = parser.parse_args()
+    main()
+
