@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
-import click
 import os
 import re
-
 import sys
 
 import praw
@@ -16,7 +14,7 @@ def get_flat_comments(submission):
     flat_comment = ''
     submission.comments.replace_more(limit=0)
     for comment in submission.comments.list():
-        if not comment.body == '[deleted]':
+        if not comment.body == '[deleted]' or comment.body == '[removed]':
             flat_comment += comment.body + ' '
     return flat_comment
     
@@ -25,7 +23,6 @@ def clean_flat_comments(document):
     document = document.replace('\n', ' ')
     document = document.replace('\t', ' ')
     return document 
-
 
 def main():
     os.chdir('../data')
@@ -46,6 +43,8 @@ def main():
 
     timestamp_Start = time.mktime(datetime.datetime(args.startYear, args.startMonth, 1, 0, 0, 0).timetuple())
     timestamp_Stop = time.mktime(datetime.datetime(args.stopYear, args.stopMonth, monthrange(args.stopYear, args.stopMonth)[1], 23, 59, 59, 99).timetuple())
+    print('Start:', timestamp_Start)
+    print('Stop:', timestamp_Stop)
 
     submissions = []
     for submission in sub.submissions(start=timestamp_Start, end=timestamp_Stop):
