@@ -15,9 +15,9 @@ extracting themes:
 https://dl.acm.org/citation.cfm?id=1081895
 
 ## TODO:
-1. create link_id create_utc table
-2. join above table with link_id comments table
-3. using 1, 2 track extracted themes over time and plot on line graph
+1. pull a year's worth of worldnews (then do analysis by month and by the whole year)
+2. controversial? GOAL: match themes to highly controversial posts, get ids, match ids to themes, pull top ten most controversial per month. thus we'll see what themes are the most controversial
+3. authors: grab authors of pulled posts, find number of self-comments on their own posts, link themes to authors
 
 ## potential ideas:
   * identify memes
