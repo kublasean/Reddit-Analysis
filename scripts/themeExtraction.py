@@ -12,6 +12,8 @@ import datetime
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF
 
+from collections import defaultdict
+
 class redditNMF(object):
 
     def __init__(self, subreddit, startYear, startMonth, stopYear, stopMonth, n_features=1000, n_components=10):
@@ -88,12 +90,10 @@ class redditNMF(object):
         return nmf
 
     def top_words(self, n_top_words):
-        messages = []
+        messages = defaultdict(list)
         for topic_idx, topic in enumerate(self.nmf.components_):
-            message = "Topic #%d: " % topic_idx
-            message += " ".join([self.feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]])
-            messages.append(message)
-        return messages
+            messages[topic_idx] =  [self.feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]]
+        return dict(messages)
             
     def order(self):
         index = pd.MultiIndex.from_tuples(tuples=[(reddit_id, self.dates[reddit_id]) for reddit_id in self.reddit_ids], names=['submission_id', 'Date'])
