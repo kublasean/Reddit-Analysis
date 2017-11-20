@@ -59,8 +59,10 @@ shinyServer(function(input, output) {
     mytable = NULL
     for (i in 1:nrow(h)) { 
       mytable = rbind(mytable, names(sort(h[i,], decreasing=TRUE)[1:input$terms]))
-      print(mytable)
+      #print(mytable)
     }
+    mytable = t(mytable)
+    colnames(mytable) = seq(1, input$rank)
     return(as.table(mytable))
   })
 
