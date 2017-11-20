@@ -24,9 +24,9 @@ class redditNMF(object):
         self.n_features = n_features
         self.n_components = n_components
         
-        submission_dates_file = '{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_submissiondates.txt'.format(\
+        submission_dates_file = '../data/{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_submissiondates.txt'.format(\
                 **{'subreddit':subreddit, 'startYear':startYear, 'startMonth':startMonth, 'stopYear':stopYear,  'stopMonth':stopMonth})
-        flat_comments_file = '{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_flatcomments.txt'.format(\
+        flat_comments_file = '../data/{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_flatcomments.txt'.format(\
                 **{'subreddit':subreddit, 'startYear':startYear, 'startMonth':startMonth, 'stopYear':stopYear,  'stopMonth':stopMonth})
         
         # load data 
