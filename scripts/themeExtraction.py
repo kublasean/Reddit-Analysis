@@ -120,7 +120,7 @@ class redditNMF(object):
             print('Topic %s out of range'%str(topic))
 
     def save_results(self, n_top_words=20):
-        topics_file = '{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_topics.txt'.format(\
+        topics_file = '../data/{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_topics.txt'.format(\
                 **{'subreddit':self.subreddit, 'startYear':self.startYear, 'startMonth':self.startMonth, 'stopYear':self.stopYear,  'stopMonth':self.stopMonth})
 
         with open(topics_file, 'w') as out:
