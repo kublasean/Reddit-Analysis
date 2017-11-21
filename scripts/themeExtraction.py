@@ -12,6 +12,8 @@ import datetime
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF
 
+from collections import defaultdict
+
 class redditNMF(object):
 
     def __init__(self, subreddit, startYear, startMonth, stopYear, stopMonth, n_features=1000, n_components=10):
@@ -24,9 +26,9 @@ class redditNMF(object):
         self.n_features = n_features
         self.n_components = n_components
         
-        submission_dates_file = '{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_submissiondates.txt'.format(\
+        submission_dates_file = '../data/{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_submissiondates.txt'.format(\
                 **{'subreddit':subreddit, 'startYear':startYear, 'startMonth':startMonth, 'stopYear':stopYear,  'stopMonth':stopMonth})
-        flat_comments_file = '{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_flatcomments.txt'.format(\
+        flat_comments_file = '../data/{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_flatcomments.txt'.format(\
                 **{'subreddit':subreddit, 'startYear':startYear, 'startMonth':startMonth, 'stopYear':stopYear,  'stopMonth':stopMonth})
         
         # load data 
@@ -88,12 +90,10 @@ class redditNMF(object):
         return nmf
 
     def top_words(self, n_top_words):
-        messages = []
+        messages = defaultdict(list)
         for topic_idx, topic in enumerate(self.nmf.components_):
-            message = "Topic #%d: " % topic_idx
-            message += " ".join([self.feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]])
-            messages.append(message)
-        return messages
+            messages[topic_idx] =  [self.feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]]
+        return dict(messages)
             
     def order(self):
         index = pd.MultiIndex.from_tuples(tuples=[(reddit_id, self.dates[reddit_id]) for reddit_id in self.reddit_ids], names=['submission_id', 'Date'])
@@ -120,7 +120,7 @@ class redditNMF(object):
             print('Topic %s out of range'%str(topic))
 
     def save_results(self, n_top_words=20):
-        topics_file = '{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_topics.txt'.format(\
+        topics_file = '../data/{subreddit}_{startYear}_{startMonth}-{stopYear}_{stopMonth}_topics.txt'.format(\
                 **{'subreddit':self.subreddit, 'startYear':self.startYear, 'startMonth':self.startMonth, 'stopYear':self.stopYear,  'stopMonth':self.stopMonth})
 
         with open(topics_file, 'w') as out:
