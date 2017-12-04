@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+
+
+#Script to grab the submission data for a given time frame within a given subreddit
+
 import os
 import re
 import sys

@@ -1,3 +1,7 @@
+#This script grabs the authors associated with a list of submission files. Input is a tab deliminated text file where the first column is a list of Reddit Submission IDs. The output files are a list of submission authors and a list of comment authors for each submission, but only for commenters who had also added a submission.
+
+
+
 import numpy as np
 import praw
 
@@ -17,7 +21,7 @@ def main():
 
 
 	outfile = input_file.rsplit('_',maxsplit=1)[0] + '_SubmissionAuthors.txt'
-	outfile2 = input_file.rsplit('_',maxsplit=1)[0] + '_AllAuthors.txt'
+	outfile2 = input_file.rsplit('_',maxsplit=1)[0] + '_CommentAuthors.txt'
 	
 	authors = []
 
