@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-
-
-#Script to grab the submission data for a given time frame within a given subreddit
+'''
+Script to grab the submission data for a given time frame within a given subreddit
+'''
 
 import os
 import re
@@ -37,11 +37,11 @@ def main():
         print('%s already exits. Are you sure you want to rerun? \nPlease delete the file and try again. '%outfile)
         sys.exit()
 
-    reddit = praw.Reddit(client_id='qJwY2ZzRahm-GQ',
-                        client_secret='lkZjzt2g6MutrTm3D7c7hNl5R6w',
-                        user_agent='linux:reddit-analysis:v1.0.0 (by /u/DigitalArcheology)',
-                        username='DigitalArcheology',
-                        password='GOvols!2017')
+    reddit = praw.Reddit(client_id='xxxxxxx',
+                         client_secret='xxxxx',
+                         user_agent='xxxxxxxxxx',
+                         username='xxxxxx',
+                         password='xxxxx')
                      
     sub = reddit.subreddit(args.subreddit)
 

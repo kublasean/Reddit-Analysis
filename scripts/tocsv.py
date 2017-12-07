@@ -1,6 +1,13 @@
-# script to convert to .csv
+#/usr/bin/env python3
+
+'''
+Script to convert comment data to .csv
+'''
+
 import pandas as pd
 import sys
+
+
 def load_data(path, dates_D):
     reddit_ids = []
     data = []
@@ -24,6 +31,6 @@ def load_dates(path):
 dates = load_dates(sys.argv[1])
 reddit_ids, data_samples = load_data(sys.argv[2], dates)
 
-# ouput as .csv, easier for R to read in
+# output as .csv, easier for R to read in
 df = pd.DataFrame(list(zip(reddit_ids, [(dates[reddit_id]) for reddit_id in reddit_ids], data_samples)))
 df.to_csv(sys.argv[3])
